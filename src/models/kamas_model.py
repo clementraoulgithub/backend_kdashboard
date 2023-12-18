@@ -9,6 +9,7 @@ class Kamas(models.Model):
     average = fields.FloatField()
     max = fields.FloatField()
     min = fields.FloatField()
+    server = fields.CharField(max_length=200)
 
 
 Kamas_Pydantic = pydantic_model_creator(Kamas, name="KamasIn", exclude=["id", "timestamp"])
