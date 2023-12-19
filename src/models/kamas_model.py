@@ -12,4 +12,6 @@ class Kamas(models.Model):
     server = fields.CharField(max_length=200)
 
 
-Kamas_Pydantic = pydantic_model_creator(Kamas, name="KamasIn", exclude=["id", "timestamp"])
+Kamas_Pydantic = pydantic_model_creator(
+    Kamas, name="KamasIn", exclude=["id", "timestamp"]
+)

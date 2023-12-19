@@ -3,3 +3,5 @@ pydantic==2.5.2
 pydantic_core==2.14.5
 tortoise-orm==0.20.0
 uvicorn==0.24.0.post1
+tzlocal
+pytz
