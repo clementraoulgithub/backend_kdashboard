@@ -4,7 +4,6 @@ from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
 from src.models.kamas_model import Kamas, Kamas_Pydantic
-from src.tools.tools import get_offset_time_zone
 
 router = APIRouter()
 
@@ -16,14 +15,12 @@ async def create_kamas_value(message: Kamas_Pydantic):
 
 @router.get("/today", responses={404: {"model": HTTPNotFoundError}})
 async def get_today_kamas(server: str):
-    offset = get_offset_time_zone()
     today_start = (
         datetime.datetime.now(datetime.timezone.utc).replace(
             hour=0, minute=0, second=0, microsecond=0
         )
-        - offset
     )
-    today_end = today_start + datetime.timedelta(days=1) - offset
+    today_end = today_start + datetime.timedelta(days=1)
     return (
         await Kamas.filter(
             timestamp__gte=today_start, timestamp__lt=today_end, server=server
@@ -35,14 +32,12 @@ async def get_today_kamas(server: str):
 
 @router.get("/yesterday", responses={404: {"model": HTTPNotFoundError}})
 async def get_yesterday_kamas(server: str):
-    offset = get_offset_time_zone()
     today_start = (
         datetime.datetime.now(datetime.timezone.utc).replace(
             hour=0, minute=0, second=0, microsecond=0
         )
-        - offset
     )
-    yesterday_start = today_start - datetime.timedelta(days=1) - offset
+    yesterday_start = today_start - datetime.timedelta(days=1)
     # return the last
     return (
         await Kamas.filter(
