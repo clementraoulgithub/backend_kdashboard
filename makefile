@@ -7,3 +7,5 @@ docker-build:
 docker-compose:
 	docker compose -f "dockercompose.yml" up -d --build
 
+docker-tag:
+	docker tag backendkdashboard:latest clementraoul/dockerhub:backendkdashboard
