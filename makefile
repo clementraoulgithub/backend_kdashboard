@@ -9,3 +9,6 @@ docker-compose:
 
 docker-tag:
 	docker tag backendkdashboard:latest clementraoul/dockerhub:backendkdashboard
+
+docker-save:
+	docker save backendkdashboard:latest kamasdashboard:latest | gzip > deploiment.tar.gz
