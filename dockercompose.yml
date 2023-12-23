@@ -1,0 +1,17 @@
+version: "3.9"
+  
+services:
+  dashboad:
+    image: kamasdashboard:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    environment:
+      - BACKEND_HOST=backend
+  backend:
+    image: backendkdashboard:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/db:/app/src/db

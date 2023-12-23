@@ -14,21 +14,35 @@ async def create_kamas_value(message: Kamas_Pydantic):
 
 
 @router.get("/today", responses={404: {"model": HTTPNotFoundError}})
-async def get_today_kamas():
-    today_start = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+async def get_today_kamas(server: str):
+    today_start = datetime.datetime.now(datetime.timezone.utc).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
     today_end = today_start + datetime.timedelta(days=1)
-
-    return await Kamas.filter(timestamp__gte=today_start, timestamp__lt=today_end).all()
+    return (
+        await Kamas.filter(
+            timestamp__gte=today_start, timestamp__lt=today_end, server=server
+        )
+        .order_by("-timestamp")
+        .first()
+    )
 
 
 @router.get("/yesterday", responses={404: {"model": HTTPNotFoundError}})
-async def get_yesterday_kamas():
-    today_start = datetime.datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+async def get_yesterday_kamas(server: str):
+    today_start = datetime.datetime.now(datetime.timezone.utc).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    )
     yesterday_start = today_start - datetime.timedelta(days=1)
-
-    return await Kamas.filter(timestamp__gte=yesterday_start, timestamp__lt=today_start).all()
+    return (
+        await Kamas.filter(
+            timestamp__gte=yesterday_start, timestamp__lt=today_start, server=server
+        )
+        .order_by("-timestamp")
+        .first()
+    )
 
 
 @router.get("/kamas", responses={404: {"model": HTTPNotFoundError}})
-async def get_kamas():
-    return await Kamas.all()
+async def get_kamas(server: str):
+    return await Kamas.filter(server=server).all()
