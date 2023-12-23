@@ -7,8 +7,5 @@ docker-build:
 docker-compose:
 	docker compose -f "dockercompose.yml" up -d --build
 
-docker-save:
-	docker save backendkdashboard:latest kamasdashboard:latest | gzip > deploiment.tar.gz
-
 docker-push:
 	docker push ghcr.io/clementraoulastek/backendkdashboard:latest
