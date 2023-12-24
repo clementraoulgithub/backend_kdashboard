@@ -1,8 +1,17 @@
+"""Module for the kamas model."""
+
 from tortoise import fields, models
 from tortoise.contrib.pydantic import pydantic_model_creator
 
 
 class Kamas(models.Model):
+    """
+    Summary: Kamas model.
+
+    Args:
+        models (models.Model): Base model from tortoise ORM.
+    """
+
     id = fields.IntField(pk=True)
     timestamp = fields.DatetimeField(auto_now_add=True)
     kamas_dict = fields.JSONField()

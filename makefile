@@ -4,6 +4,7 @@ run:
 lint:
 	python -m isort . --profile black
 	python -m black .
+	python -m pylint src
 
 docker-build:
 	docker build . --tag ghcr.io/clementraoulastek/backendkdashboard:latest --platform linux/amd64
