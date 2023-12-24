@@ -4,12 +4,13 @@ run:
 lint:
 	python -m isort . --profile black
 	python -m black .
+	python -m pylint src
 
 docker-build:
-	docker build --pull --rm -f "dockerfile" -t backendkdashboard:latest "." --platform linux/amd64 -t ghcr.io/clementraoulastek/backendkdashboard:latest
+	docker build . --tag ghcr.io/clementraoulastek/backendkdashboard:latest --platform linux/amd64
 
 docker-compose:
-	docker compose -f "dockercompose.yml" up -d --build
+	docker-compose -f "dockercompose.yml" up -d --build
 
 docker-push:
 	docker push ghcr.io/clementraoulastek/backendkdashboard:latest
