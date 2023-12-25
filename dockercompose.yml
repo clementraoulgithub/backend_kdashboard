@@ -11,7 +11,5 @@ services:
       - BACKEND_HOST=backend
   backend:
     image: backendkdashboard:latest
-    ports:
-      - "8000:8000"
     volumes:
       - ./src/db:/app/src/db
