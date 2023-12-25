@@ -97,8 +97,29 @@ async def get_kamas(server: str, scope: str):
             timestamp__gte=week_start, timestamp__lt=week_end, server=server
         ).order_by("timestamp")
 
-    month_start = today_start.replace(day=1)
-    month_end = month_start + datetime.timedelta(days=32)
+    if scope == "month":
+        month_start = today_start.replace(day=1)
+        month_end = month_start + datetime.timedelta(days=31)
+        return await Kamas.filter(
+            timestamp__gte=month_start, timestamp__lt=month_end, server=server
+        ).order_by("timestamp")
+
+    if scope == "3month":
+        month_start = today_start.replace(day=1) - datetime.timedelta(days=62)
+        month_end = month_start + datetime.timedelta(days=31)
+        return await Kamas.filter(
+            timestamp__gte=month_start, timestamp__lt=month_end, server=server
+        ).order_by("timestamp")
+
+    if scope == "6month":
+        month_start = today_start.replace(day=1) - datetime.timedelta(days=155)
+        month_end = month_start + datetime.timedelta(days=31)
+        return await Kamas.filter(
+            timestamp__gte=month_start, timestamp__lt=month_end, server=server
+        ).order_by("timestamp")
+
+    year_start = today_start.replace(month=1, day=1)
+    year_end = year_start + datetime.timedelta(days=365)
     return await Kamas.filter(
-        timestamp__gte=month_start, timestamp__lt=month_end, server=server
+        timestamp__gte=year_start, timestamp__lt=year_end, server=server
     ).order_by("timestamp")
