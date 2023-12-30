@@ -1,7 +1,14 @@
+# Nom du Projet: Kamas Dashboard
+# Auteur: RAOUL Clément
+# Date de Création: 17-12-2023
+# Description: Ce projet à pour unique but de visualer le cours d'une devise virtuelle
+# Licence: MIT License
+
 """Module for the kamas controller."""
 
 import datetime
 
+import numpy as np
 from fastapi import APIRouter
 from tortoise.contrib.fastapi import HTTPNotFoundError
 
@@ -60,13 +67,18 @@ async def get_yesterday_kamas(server: str):
         hour=0, minute=0, second=0, microsecond=0
     )
     yesterday_start = today_start - datetime.timedelta(days=1)
-    return (
-        await Kamas.filter(
-            timestamp__gte=yesterday_start, timestamp__lt=today_start, server=server
-        )
-        .order_by("-timestamp")
-        .first()
-    )
+
+    lst_yesterday = await Kamas.filter(
+        timestamp__gte=yesterday_start, timestamp__lt=today_start, server=server
+    ).order_by("-timestamp")
+
+    if len(lst_yesterday) == 0:
+        return None
+
+    average = np.mean([Kamas.average for Kamas in lst_yesterday])
+    lst_yesterday[0].average = round(average, 2)
+
+    return lst_yesterday[0]
 
 
 @router.get("/kamas", responses={404: {"model": HTTPNotFoundError}})
