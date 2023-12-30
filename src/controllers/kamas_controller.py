@@ -77,6 +77,7 @@ async def get_yesterday_kamas(server: str):
 
     average = np.mean([Kamas.average for Kamas in lst_yesterday])
     lst_yesterday[0].average = round(average, 2)
+    lst_yesterday[0].min = min(Kamas.min for Kamas in lst_yesterday)
 
     return lst_yesterday[0]
 
