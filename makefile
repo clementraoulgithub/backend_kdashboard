@@ -2,6 +2,7 @@ run:
 	python -m uvicorn src.__main__:app --reload
 
 lint:
+	python -m header_context
 	python -m isort . --profile black
 	python -m black .
 	python -m pylint src
