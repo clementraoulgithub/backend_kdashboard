@@ -28,8 +28,8 @@ directory_path = "."
 
 # Read header from file
 with open("LICENSE", "r") as file:
-    header = file.read()
-    header = "\n".join([f"# {line}" for line in header.split("\n")])
+    header = file.readlines()
+    header = "".join(f"# {line}" for line in header)
 
 
 def header_present(file_path: str, header: str) -> bool:
@@ -45,16 +45,12 @@ def header_present(file_path: str, header: str) -> bool:
     """
     with open(file_path, "r") as file:
         content = file.read(len(header))
-    return content == header
+    return header.replace(" ", "") in content.replace(" ", "")
 
 
-def add_header(file_path: str, header: str) -> None:
+def add_header() -> None:
     """
     Add header to file
-
-    Args:
-        file_path (str): file path
-        header (str): header
     """
     for dirpath, _, filenames in os.walk(directory_path):
         for filename in filenames:
@@ -68,4 +64,4 @@ def add_header(file_path: str, header: str) -> None:
                         file.write(header.rstrip("\r\n") + "\n\n" + content)
 
 
-add_header("header.h", header)
+add_header()
