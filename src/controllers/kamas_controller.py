@@ -135,16 +135,16 @@ async def get_kamas(server: str, scope: str):
             timestamp__gte=month_start, timestamp__lt=month_end, server=server
         ).order_by("timestamp")
 
-    if scope == "3month":
-        month_start = today_start.replace(day=1) - datetime.timedelta(days=62)
-        month_end = month_start + datetime.timedelta(days=31)
+    if scope == "three_months":
+        month_start = today_start.replace(day=1) - datetime.timedelta(days=93)
+        month_end = today_start.replace(day=1)
         return await Kamas.filter(
             timestamp__gte=month_start, timestamp__lt=month_end, server=server
         ).order_by("timestamp")
 
-    if scope == "6month":
-        month_start = today_start.replace(day=1) - datetime.timedelta(days=155)
-        month_end = month_start + datetime.timedelta(days=31)
+    if scope == "six_months":
+        month_start = today_start.replace(day=1) - datetime.timedelta(days=186)
+        month_end = today_start.replace(day=1)
         return await Kamas.filter(
             timestamp__gte=month_start, timestamp__lt=month_end, server=server
         ).order_by("timestamp")
