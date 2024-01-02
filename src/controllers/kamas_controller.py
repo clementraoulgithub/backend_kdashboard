@@ -47,9 +47,9 @@ async def create_kamas_value(message: Kamas_Pydantic):
 
 
 @router.get("/today", responses={404: {"model": HTTPNotFoundError}})
-async def get_today_kamas(server: str):
+async def get_two_last_kamas_value(server: str):
     """
-    Summary: Get today's kamas value.
+    Summary: Get the two last kamas values.
 
     Args:
         server (str): Server name.
@@ -57,17 +57,8 @@ async def get_today_kamas(server: str):
     Returns:
         Kamas_Pydantic: Kamas_Pydantic
     """
-    today_start = datetime.datetime.now(datetime.timezone.utc).replace(
-        hour=0, minute=0, second=0, microsecond=0
-    )
-    today_end = today_start + datetime.timedelta(days=1)
-    return (
-        await Kamas.filter(
-            timestamp__gte=today_start, timestamp__lt=today_end, server=server
-        )
-        .order_by("-timestamp")
-        .first()
-    )
+    lst = await Kamas.filter(server=server).order_by("-timestamp")
+    return lst[:2] if len(lst) > 1 else None
 
 
 @router.get("/yesterday", responses={404: {"model": HTTPNotFoundError}})
