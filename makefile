@@ -8,10 +8,10 @@ lint:
 	python -m pylint src
 
 docker-build:
-	docker build . --tag ghcr.io/clementraoulastek/backendkdashboard:latest --platform linux/amd64
+	docker build . --tag ghcr.io/clementraoulgithub/backendkdashboard:latest --platform linux/amd64
 
 docker-compose:
 	docker-compose -f "dockercompose.yml" up -d --build
 
 docker-push:
-	docker push ghcr.io/clementraoulastek/backendkdashboard:latest
+	docker push ghcr.io/clementraoulgithub/backendkdashboard:latest
