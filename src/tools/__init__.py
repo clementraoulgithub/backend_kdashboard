@@ -19,33 +19,3 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-#
-
-
-"""Module for the kamas model."""
-
-from tortoise import fields, models
-from tortoise.contrib.pydantic import pydantic_model_creator
-
-
-# pylint: disable=too-few-public-methods
-class Kamas(models.Model):
-    """
-    Summary: Kamas model.
-
-    Args:
-        models (models.Model): Base model from tortoise ORM.
-    """
-
-    id = fields.IntField(pk=True)
-    timestamp = fields.DatetimeField(auto_now_add=True)
-    kamas_dict = fields.JSONField()
-    average = fields.FloatField()
-    max = fields.FloatField()
-    min = fields.FloatField()
-    server = fields.CharField(max_length=200)
-
-
-Kamas_Pydantic = pydantic_model_creator(
-    Kamas, name="KamasIn", exclude=["id", "timestamp"]
-)
